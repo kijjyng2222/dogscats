@@ -48,6 +48,10 @@ transform = transforms.Compose([
 st.set_page_config(page_title="Dogs vs Cats 분류기", page_icon="🐾")
 st.title("🐾 Dogs vs Cats 분류기")
 st.caption("이미지를 업로드하면 개인지 고양이인지 분류합니다.")
+model = load_model()
+
+if model is None:
+    st.stop()
 
 # ── 이미지 업로드 ─────────────────────────────────────────
 uploaded = st.file_uploader(

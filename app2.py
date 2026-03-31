@@ -7,13 +7,14 @@ from PIL import Image
 import gdown
 import os
 
-# ── 모델 로드 (앱 시작 시 1회만 실행) ──────────────────────
-MODEL_URL = "https://drive.google.com/uc?id=N0k_IvjiCIcqUVstURr46o2e"
-MODEL_PATH = "best_model.pt"
 @st.cache_resource
 def load_model():
-    if not os.path.exists(MODEL_PATH):
-        gdown.download(id="N0k_IvjiCIcqUVstURr46o2e", output=MODEL_PATH, quiet=False, fuzzy=True)
+    # 🔥 무조건 다시 다운로드 (캐시 문제 방지)
+    if os.path.exists(MODEL_PATH):
+        os.remove(MODEL_PATH)
+
+    # 🔥 올바른 ID 넣어야 함
+    gdown.download(id="N0k_IvjiCIcqUVstURr46o2e", output=MODEL_PATH, quiet=False, fuzzy=True)
 
     model = models.resnet18(weights=None)
     model.fc = nn.Linear(model.fc.in_features, 1)
@@ -24,19 +25,6 @@ def load_model():
 
     model.eval()
     return model
-@st.cache_resource
-def load_model():
-    if not os.path.exists(MODEL_PATH):
-        gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
-    model = models.resnet18(weights=None)
-    model.fc = nn.Linear(model.fc.in_features, 1)
-    model.load_state_dict(
-        torch.load(MODEL_PATH, map_location='cpu', weights_only=True)
-    )
-    model.eval()
-    return model
-
-model = load_model()
 
 # ── 이미지 전처리 (학습 시 eval_transform과 동일) ──────────
 transform = transforms.Compose([

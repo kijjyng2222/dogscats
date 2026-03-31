@@ -10,7 +10,20 @@ import os
 # ── 모델 로드 (앱 시작 시 1회만 실행) ──────────────────────
 MODEL_URL = "https://drive.google.com/uc?id=1EkAhsqncZjS_0IqQprw1OpkzGq_urtGi"
 MODEL_PATH = "best_model.pt"
+@st.cache_resource
+def load_model():
+    if not os.path.exists(MODEL_PATH):
+        gdown.download(id="1EkAhsqncZjS_0IqQprw1OpkzGq_urtGi", output=MODEL_PATH, quiet=False, fuzzy=True)
 
+    model = models.resnet18(weights=None)
+    model.fc = nn.Linear(model.fc.in_features, 1)
+
+    model.load_state_dict(
+        torch.load(MODEL_PATH, map_location='cpu')
+    )
+
+    model.eval()
+    return model
 @st.cache_resource
 def load_model():
     if not os.path.exists(MODEL_PATH):
@@ -73,3 +86,5 @@ if uploaded is not None:
         st.progress(prob)
 else:
     st.info("왼쪽 위의 업로드 버튼을 눌러 이미지를 선택하세요.")
+
+

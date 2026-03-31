@@ -14,7 +14,7 @@ def load_model():
         os.remove(MODEL_PATH)
 
     # 🔥 올바른 ID 넣어야 함
-    gdown.download(id="N0k_IvjiCIcqUVstURr46o2e", output=MODEL_PATH, quiet=False, fuzzy=True)
+    gdown.download(id="10ervIOr-N0k_IvjiCIcqUVstURr46o2e", output=MODEL_PATH, quiet=False, fuzzy=True)
 
     model = models.resnet18(weights=None)
     model.fc = nn.Linear(model.fc.in_features, 1)

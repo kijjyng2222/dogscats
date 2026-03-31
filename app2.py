@@ -9,12 +9,17 @@ import os
 
 @st.cache_resource
 def load_model():
-    # 🔥 무조건 다시 다운로드 (캐시 문제 방지)
+    # 기존 깨진 파일 삭제
     if os.path.exists(MODEL_PATH):
         os.remove(MODEL_PATH)
 
-    # 🔥 올바른 ID 넣어야 함
-    gdown.download(id="10ervIOr-N0k_IvjiCIcqUVstURr46o2e", output=MODEL_PATH, quiet=False, fuzzy=True)
+    # ✅ 올바른 ID
+    gdown.download(
+        id="10ervIOr-N0k_IvjiCIcqUVstURr46o2e",
+        output=MODEL_PATH,
+        quiet=False,
+        fuzzy=True
+    )
 
     model = models.resnet18(weights=None)
     model.fc = nn.Linear(model.fc.in_features, 1)

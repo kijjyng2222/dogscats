@@ -8,7 +8,7 @@ import gdown
 import os
 
 # ── 모델 로드 (앱 시작 시 1회만 실행) ──────────────────────
-MODEL_URL = "https://drive.google.com/uc?id=1EkAhsqncZjS_0IqQprw1OpkzGq_urtGi"
+MODEL_URL = "https://drive.google.com/uc?id=N0k_IvjiCIcqUVstURr46o2e""
 MODEL_PATH = "best_model.pt"
 @st.cache_resource
 def load_model():

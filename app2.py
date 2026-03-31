@@ -9,27 +9,30 @@ import os
 
 @st.cache_resource
 def load_model():
-    # 기존 깨진 파일 삭제
-    if os.path.exists(MODEL_PATH):
-        os.remove(MODEL_PATH)
+    try:
+        if os.path.exists(MODEL_PATH):
+            os.remove(MODEL_PATH)
 
-    # ✅ 올바른 ID
-    gdown.download(
-        id="10ervIOr-N0k_IvjiCIcqUVstURr46o2e",
-        output=MODEL_PATH,
-        quiet=False,
-        fuzzy=True
-    )
+        gdown.download(
+            id="10ervIOr-N0k_IvjiCIcqUVstURr46o2e",
+            output=MODEL_PATH,
+            quiet=False,
+            fuzzy=True
+        )
 
-    model = models.resnet18(weights=None)
-    model.fc = nn.Linear(model.fc.in_features, 1)
+        model = models.resnet18(weights=None)
+        model.fc = nn.Linear(model.fc.in_features, 1)
 
-    model.load_state_dict(
-        torch.load(MODEL_PATH, map_location='cpu')
-    )
+        model.load_state_dict(
+            torch.load(MODEL_PATH, map_location='cpu')
+        )
 
-    model.eval()
-    return model
+        model.eval()
+        return model
+
+    except Exception as e:
+        st.error(f"🔥 모델 로드 실패: {e}")
+        return None
 
 # ── 이미지 전처리 (학습 시 eval_transform과 동일) ──────────
 transform = transforms.Compose([

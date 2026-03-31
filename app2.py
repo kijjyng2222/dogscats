@@ -8,12 +8,12 @@ import gdown
 import os
 
 # ── 모델 로드 (앱 시작 시 1회만 실행) ──────────────────────
-MODEL_URL = "https://drive.google.com/uc?id=N0k_IvjiCIcqUVstURr46o2e""
+MODEL_URL = "https://drive.google.com/uc?id=N0k_IvjiCIcqUVstURr46o2e"
 MODEL_PATH = "best_model.pt"
 @st.cache_resource
 def load_model():
     if not os.path.exists(MODEL_PATH):
-        gdown.download(id="1EkAhsqncZjS_0IqQprw1OpkzGq_urtGi", output=MODEL_PATH, quiet=False, fuzzy=True)
+        gdown.download(id="N0k_IvjiCIcqUVstURr46o2e", output=MODEL_PATH, quiet=False, fuzzy=True)
 
     model = models.resnet18(weights=None)
     model.fc = nn.Linear(model.fc.in_features, 1)

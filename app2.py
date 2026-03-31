@@ -6,7 +6,7 @@ from torchvision import models, transforms
 from PIL import Image
 import gdown
 import os
-
+MODEL_PATH = "best_model.pt"
 @st.cache_resource
 def load_model():
     try:
